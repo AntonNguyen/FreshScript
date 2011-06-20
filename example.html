@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<title>Example</title>
+		<style>
+			#response {
+				width:400px;
+				padding:10px;
+				border:1px solid #000000;
+			}
+		</style>
+		<script src="jquery.js"></script>
+		<script>
+			var url = "";
+			var token = "";
+
+			$(document).ready(function() {
+				
+				$('#submit').click(function() {
+					$.ajax({
+						type: "POST",
+						url: url,
+						data: '<request method="client.get"><client_id>1</client_id></request>',
+						dataType: "text",
+						headers: {
+									'Authorization': make_base_auth(token, 'X'),
+									'content-type': 'application/x-www-form-urlencoded'
+								 },
+						success: function(data) {
+							$('#response').text(data);
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							$('#response').text(textStatus);
+						}
+					});
+				});
+				
+			});
+
+			function make_base_auth(user, password) {
+				var tok = user + ':' + password;
+				var hash = window.btoa(tok);
+				return "Basic " + hash;
+			}
+		</script>
+	</head>
+	<body>
+
+		<h1>Example</h1>
+		<h2>Response</h2>
+		<div id="response">
+
+		</div>
+		<input type="button" id="submit" value="Submit"></input>
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
